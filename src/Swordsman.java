@@ -1,7 +1,7 @@
 
 public class Swordsman extends Unit{
 
-	public Swordsman() {
+	public Swordsman(int playerx) {
 		super();
 	health=20;
 	damage=3;
@@ -9,6 +9,9 @@ public class Swordsman extends Unit{
 	priceWood=20;
 	priceStone=50;
 	priceIron=120;
+	speed=1;
+	range=1;
+	player=playerx;
 	}
 	
 }

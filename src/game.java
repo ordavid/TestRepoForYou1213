@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import processing.core.PApplet;
@@ -10,6 +12,7 @@ public class game extends PApplet {
 	int screen = 0;
 	final int BUILDSCREEN=1;
 	final int TRAINSCREEN=2;
+	final int FIGHTSCREEN=9;
 	final int ATTACKSCREEN=3;
 	final int ENDSCREEN=0;
 	final int BUILDGOLDMINE=1;
@@ -21,8 +24,15 @@ public class game extends PApplet {
 	final int TRAINHORSE=7;
 	final int ATTACK=8;
 	Player current = p1;
+	BattleInstance joanna; 
+	int turn=1;
+	ArrayList<Square> squares;
+	int originalR;
+	int originalC;
+	int finalR;
+	int finalC;
+	int click=0;
 	
-	boolean turn=true;
 	public void setup(){
 		
 		size(600,600);
@@ -86,9 +96,36 @@ public class game extends PApplet {
 		}
 		if(screen == ATTACKSCREEN){
 			if((p1.getTroops().size()>0||p2.getTroops().size()>0)){
-			BattleInstance joanna = new BattleInstance(p1.getTroops(),p2.getTroops());
-			for(int r=10; r<590; r+=580/(joanna.getGrid().length)){
-				for(int c = 10; c<590; c+=580/(joanna.getGrid()[0].length)){
+			joanna = new BattleInstance(p1.getTroops(),p2.getTroops());
+			squares = new ArrayList<Square>();
+			for(int r=10; r<590-580/(joanna.getGrid()[0].length); r+=580/(joanna.getGrid().length)){
+				for(int c = 10; c<=590-580/(joanna.getGrid()[0].length); c+=580/(joanna.getGrid()[0].length)){
+					if(joanna.getGrid()[(r-10)/(580/(joanna.getGrid().length))][(c-10)/(580/(joanna.getGrid()[0].length))] instanceof Swordsman){
+						fill(255,0,0);
+					}
+					else if(joanna.getGrid()[(r-10)/(580/(joanna.getGrid().length))][(c-10)/(580/(joanna.getGrid()[0].length))] instanceof Archer){
+						fill(0,255,0);
+					}
+					else if(joanna.getGrid()[(r-10)/(580/(joanna.getGrid().length))][(c-10)/(580/(joanna.getGrid()[0].length))] instanceof Horseman){
+						fill(0,0,255);
+					}
+					else{
+						fill(255,255,255);
+					}
+					
+					rect(r,c,580/(joanna.getGrid().length),580/(joanna.getGrid()[0].length));
+					
+				}
+			}
+			screen=FIGHTSCREEN;
+			}
+			else{
+				screen=ENDSCREEN;
+			}
+		}
+		if(screen==FIGHTSCREEN){
+			for(int r=10; r<590-580/(joanna.getGrid()[0].length); r+=580/(joanna.getGrid().length)){
+				for(int c = 10; c<=590-580/(joanna.getGrid()[0].length); c+=580/(joanna.getGrid()[0].length)){
 					if(joanna.getGrid()[(r-10)/(580/(joanna.getGrid().length))][(c-10)/(580/(joanna.getGrid()[0].length))] instanceof Swordsman){
 						fill(255,0,0);
 					}
@@ -102,18 +139,16 @@ public class game extends PApplet {
 						fill(255,255,255);
 					}
 					rect(r,c,580/(joanna.getGrid().length),580/(joanna.getGrid()[0].length));
-					
 				}
-			}
-			}
-			else{
-				screen=ENDSCREEN;
-			}
+				}
 		}
 	}
 	
 	
 	public void mouseClicked(){
+		if(screen==FIGHTSCREEN){
+			makeMove(mouseX,mouseY);
+		}
 		if(mouseX>70 && mouseX<150 && mouseY>460 && mouseY<540 && screen==BUILDSCREEN){
 			runTurn(BUILDGOLDMINE);
 			screen=ENDSCREEN;
@@ -164,6 +199,52 @@ public class game extends PApplet {
 		
 		
 	}
+	private void makeMove(int mouseX, int mouseY) {
+		
+		if(click==0){
+			originalR=(mouseY-10)/(580/(joanna.getGrid()[0].length));
+			originalC=(mouseX-10)/(580/(joanna.getGrid().length));
+			click=1;
+			return;
+		}
+		if(click==1){
+			finalR=(mouseY-10)/(580/(joanna.getGrid()[0].length));
+			finalC=(mouseX-10)/(580/(joanna.getGrid().length));
+			Unit temp = joanna.getGrid()[originalC][originalR];
+			if(isValidMove(originalR, originalC, finalR, finalC,temp)){
+			if(joanna.getGrid()[finalC][finalR]==null){
+			joanna.getGrid()[originalC][originalR]=null;
+			joanna.getGrid()[finalC][finalR]=temp;
+			click=0;
+			}
+			else{
+				joanna.getGrid()[finalC][finalR].setHealth(joanna.getGrid()[finalC][finalR].getHealth()-temp.getDamage());
+				if(joanna.getGrid()[finalC][finalR].getHealth()<=0){
+					if(joanna.getGrid()[finalC][finalR].getPlayer()==1){
+						p1.removeTroop(joanna.getGrid()[finalC][finalR]);
+					}
+					else if(joanna.getGrid()[finalC][finalR].getPlayer()==2){
+						p2.removeTroop(joanna.getGrid()[finalC][finalR]);
+					}
+					joanna.getGrid()[finalC][finalR]=null;
+				}
+			}
+			return;
+			}
+			click=0;
+		}
+		
+	}
+	private boolean isValidMove(int originalR2, int originalC2, int finalR2,
+			int finalC2, Unit a) {
+		if(a==null){
+			return false;	
+		}
+		if(Math.abs(finalR2-originalR2)<=a.getSpeed() && Math.abs(finalC2-originalC2)<=a.getSpeed()){
+		return true;
+		}
+		return false;
+	}
 	public void runTurn(int a){
 		
 		if(a==BUILDGOLDMINE){
@@ -209,7 +290,7 @@ public class game extends PApplet {
 			}
 		}
 		if(a==TRAINSWORDSMAN){
-			Swordsman gm=new Swordsman();
+			Swordsman gm=new Swordsman(turn);
 			if(current.buy(gm.getPriceGold(), gm.getPriceWood(), gm.getPriceStone(), gm.getPriceIron())){
 				current.addTroop(gm);
 				System.out.println("You just trained a swordsman");
@@ -220,7 +301,7 @@ public class game extends PApplet {
 			}
 		}
 		if(a==TRAINARCHER){
-			Archer gm=new Archer();
+			Archer gm=new Archer(turn);
 			if(current.buy(gm.getPriceGold(), gm.getPriceWood(), gm.getPriceStone(), gm.getPriceIron())){
 				current.addTroop(gm);
 				System.out.println("You just trained an archer");
@@ -231,7 +312,7 @@ public class game extends PApplet {
 			}
 		}
 		if(a==TRAINHORSE){
-			Horseman gm=new Horseman();
+			Horseman gm=new Horseman(turn);
 			if(current.buy(gm.getPriceGold(), gm.getPriceWood(), gm.getPriceStone(), gm.getPriceIron())){
 				current.addTroop(gm);
 				System.out.println("You just trained a horseman");
@@ -255,9 +336,11 @@ public class game extends PApplet {
 		
 		if(current.equals(p1)){
 			current=p2;
+			turn=2;
 		}
 		else{
 			current=p1;
+			turn=1;
 		}
 		return;
 	}

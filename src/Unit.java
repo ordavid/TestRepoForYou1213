@@ -8,6 +8,34 @@ int priceGold;
 int priceWood;
 int priceStone;
 int priceIron;
+int speed;
+int range;
+int player;
+
+public int getPlayer() {
+	return player;
+}
+public void setPlayer(int player) {
+	this.player = player;
+}
+public Unit() {
+}
+public int getSpeed() {
+	return speed;
+}
+
+public void setSpeed(int speed) {
+	this.speed = speed;
+}
+
+public int getRange() {
+	return range;
+}
+
+public void setRange(int range) {
+	this.range = range;
+}
+
 public int getPriceGold() {
 	return priceGold;
 }
@@ -41,8 +69,7 @@ public void setPriceIron(int priceIron) {
 }
 boolean isAlive=true;
 	
-public Unit() {
-}
+
 
 public int getType() {
 	return type;

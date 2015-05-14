@@ -5,7 +5,7 @@ public class BattleInstance {
 	
 	Unit [][] grid;
 	public BattleInstance(ArrayList<Unit> troops1, ArrayList<Unit> troops2){
-		if(troops1.size()>troops2.size()){ 
+		if(troops1.size()>=troops2.size()){ 
 			grid = new Unit[troops1.size()][10];
 		}
 		else{

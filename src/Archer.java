@@ -1,7 +1,7 @@
 
 public class Archer extends Unit{
 
-	public Archer() {
+	public Archer(int playerx) {
 		super();
 	health=10;
 	damage=6;
@@ -9,6 +9,9 @@ public class Archer extends Unit{
 	priceWood=100;
 	priceStone=50;
 	priceIron=20;
+	speed=1;
+	range=3;
+	player=playerx;
 	}
 	
 }
