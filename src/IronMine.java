@@ -3,9 +3,9 @@ public class IronMine extends Building {
 
 	public IronMine(){
 		super();
-		value=150;
+		value=100;
 		priceWood=300;
-		priceGold=6;
+		priceGold=3;
 		priceStone=200;
 		priceIron=100;
 		

@@ -3,9 +3,9 @@ public class Horseman extends Unit{
 
 	public Horseman(int playerx) {
 		super();
-	health=200;
-	damage=1;
-	priceGold=2;
+	health=50;
+	damage=5;
+	priceGold=6;
 	priceWood=200;
 	priceStone=200;
 	priceIron=170;

@@ -12,6 +12,7 @@ int stoneIncome;
 int ironIncome;
 ArrayList<Unit> troops = new ArrayList<Unit>();
 ArrayList<Building> buildings = new ArrayList<Building>();
+int health;
 
 public Player(int g,int w,int s,int i,int gi,int wi,int si,int ii){
 	gold=g;
@@ -22,6 +23,15 @@ public Player(int g,int w,int s,int i,int gi,int wi,int si,int ii){
 	woodIncome=wi;
 	stoneIncome=si;
 	ironIncome=ii;
+	health=1000;
+}
+
+public int getHealth() {
+	return health;
+}
+
+public void setHealth(int health) {
+	this.health = health;
 }
 
 public void incrementGold(){

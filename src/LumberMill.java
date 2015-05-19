@@ -7,7 +7,7 @@ public class LumberMill extends Building {
 		priceWood=100;
 		priceGold=3;
 		priceStone=400;
-		priceIron=300;
+		priceIron=200;
 		
 	}
 	

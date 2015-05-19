@@ -5,7 +5,7 @@ public class Archer extends Unit{
 		super();
 	health=10;
 	damage=6;
-	priceGold=1;
+	priceGold=4;
 	priceWood=100;
 	priceStone=50;
 	priceIron=20;
