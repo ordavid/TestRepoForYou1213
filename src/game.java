@@ -47,7 +47,14 @@ public class game extends PApplet {
 	}
 	public void draw(){
 		
-		
+		if(p1.getHealth()<=0){
+			System.out.println("Player 2 wins!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.exit(0);
+		}
+		if(p2.getHealth()<=0){
+			System.out.println("Player 1 wins!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.exit(0);
+		}
 		background(0,0,0);
 		textSize(12);
 		fill(255,255,255);
