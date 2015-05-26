@@ -12,12 +12,12 @@ public class game extends PApplet {
 	Player p2 = new Player(3,200,500,300,1,80,120,70);
 	boolean isGameOver=false;
 	int screen = 0;
-	PImage botA  = loadImage("C:\\Users\\Tgotesdyner689\\Desktop\\botArcher.jpg");
-	PImage topA  = loadImage("C:\\Users\\Tgotesdyner689\\Desktop\\topArcher.jpg");
-	PImage botS  = loadImage("C:\\Users\\Tgotesdyner689\\Desktop\\botSwords.png");
-	PImage topS  = loadImage("C:\\Users\\Tgotesdyner689\\Desktop\\topSwords.jpg");
-	//PImage botH  = loadImage("C:\\Users\\Tgotesdyner689\\Desktop\\botHorse.jpg");
-	PImage topH  = loadImage("C:\\Users\\Tgotesdyner689\\Desktop\\topHorse.jpg");
+	PImage botA  = loadImage("../resources/botArcher.jpg");
+	PImage topA  = loadImage("../resources/topArcher.jpg");
+	PImage botS  = loadImage("../resources/botSwords.png");
+	PImage topS  = loadImage("../resources/topSwords.jpg");
+	PImage botH  = loadImage("../resources/botHorse.JPG");
+	PImage topH  = loadImage("../resources/topHorse.jpg");
 	
 	final int BUILDSCREEN=1;
 	final int TRAINSCREEN=2;
@@ -184,8 +184,8 @@ public class game extends PApplet {
 							image(topH,r,c);	
 						}
 						else{
-							topH.resize((580/(joanna.getGrid().length)), (580/(joanna.getGrid()[0].length)));
-							image(topH,r,c);		
+							botH.resize((580/(joanna.getGrid().length)), (580/(joanna.getGrid()[0].length)));
+							image(botH,r,c);		
 						}
 					}
 					else{
